@@ -1,9 +1,6 @@
 package fr.isen.java2.db.daos;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +38,32 @@ public class FilmDao {
 	}
 
 	public List<Film> listFilmsByGenre(String genreName) {
-		throw new RuntimeException("Method is not yet implemented");
+		List<Film> listOfFilmsByGenre = new ArrayList<>();
+
+		try (Connection connection = DataSourceFactory.getDataSource().getConnection()) {
+			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM film JOIN genre ON film.genre_id = genre.idgenre WHERE genre.name = ?")) {
+				statement.setString(1,genreName);
+				try (ResultSet results = statement.executeQuery()) {
+					while (results.next()) {
+						GenreDao genreDao = new GenreDao();
+						Genre genre = genreDao.getGenreById(results.getInt("genre_id"));
+						Film film = new Film(
+								results.getInt("idfilm"),
+								results.getString("title"),
+								results.getDate("release_date").toLocalDate(),
+								genre,
+								results.getInt("duration"),
+								results.getString("director"),
+								results.getString("summary"));
+						listOfFilmsByGenre.add(film);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			// Manage Exception
+			e.printStackTrace();
+		}
+		return listOfFilmsByGenre;
 	}
 
 	public Film addFilm(Film film) {

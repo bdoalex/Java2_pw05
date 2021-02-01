@@ -31,8 +31,7 @@ public class GenreDao {
 
 	public Genre getGenre(String name) {
 		try (Connection connection = DataSourceFactory.getDataSource().getConnection()) {
-			try (PreparedStatement statement = connection.prepareStatement(
-					"SELECT * FROM genre WHERE name =?")) {
+			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM genre WHERE name =?")) {
 				statement.setString(1,name);
 				try (ResultSet results = statement.executeQuery()) {
 					if (results.next()) {
