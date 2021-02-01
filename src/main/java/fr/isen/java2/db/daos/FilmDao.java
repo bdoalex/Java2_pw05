@@ -67,6 +67,26 @@ public class FilmDao {
 	}
 
 	public Film addFilm(Film film) {
-		throw new RuntimeException("Method is not yet implemented");
+		try (Connection connection = DataSourceFactory.getDataSource().getConnection()) {
+			String sqlQuery = "INSERT INTO film(title,release_date,genre_id,duration,director,summary) VALUES(?,?,?,?,?,?)";
+			try (PreparedStatement statement = connection.prepareStatement(
+					sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
+				statement.setString(1,film.getTitle());
+				statement.setDate(2,java.sql.Date.valueOf(film.getReleaseDate()));
+				statement.setInt(3,film.getGenre().getId());
+				statement.setInt(4, film.getDuration());
+				statement.setString(5, film.getDirector());
+				statement.setString(6,film.getSummary());
+				statement.executeUpdate();
+				ResultSet ids = statement.getGeneratedKeys();
+				if (ids.next()) {
+					return new Film(ids.getInt(1), film.getTitle(), film.getReleaseDate(), film.getGenre(), film.getDuration(), film.getDirector(), film.getSummary());
+				}
+			}
+		}catch (SQLException e) {
+			// Manage Exception
+			e.printStackTrace();
+		}
+		return film;
 	}
 }
