@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.isen.java2.db.entities.Genre;
-import fr.isen.java2.db.daos.DataSourceFactory;
 
 public class GenreDao {
 
@@ -35,6 +34,24 @@ public class GenreDao {
 			try (PreparedStatement statement = connection.prepareStatement(
 					"SELECT * FROM genre WHERE name =?")) {
 				statement.setString(1,name);
+				try (ResultSet results = statement.executeQuery()) {
+					if (results.next()) {
+						return new Genre(results.getInt("idgenre"),results.getString("name"));
+					}
+				}
+			}
+		} catch (SQLException e) {
+			// Manage Exception
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Genre getGenreById(int genreId) {
+		try (Connection connection = DataSourceFactory.getDataSource().getConnection()) {
+			try (PreparedStatement statement = connection.prepareStatement(
+					"SELECT * FROM genre WHERE idgenre =?")) {
+				statement.setInt(1, genreId);
 				try (ResultSet results = statement.executeQuery()) {
 					if (results.next()) {
 						return new Genre(results.getInt("idgenre"),results.getString("name"));
