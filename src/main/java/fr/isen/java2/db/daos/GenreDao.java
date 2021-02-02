@@ -46,23 +46,6 @@ public class GenreDao {
 		return null;
 	}
 
-	public Genre getGenreById(int genreId) {
-		try (Connection connection = DataSourceFactory.getDataSource().getConnection()) {
-			try (PreparedStatement statement = connection.prepareStatement(
-					"SELECT * FROM genre WHERE idgenre =?")) {
-				statement.setInt(1, genreId);
-				try (ResultSet results = statement.executeQuery()) {
-					if (results.next()) {
-						return new Genre(results.getInt("idgenre"),results.getString("name"));
-					}
-				}
-			}
-		} catch (SQLException e) {
-			// Manage Exception
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	public void addGenre(String name) {
 		try (Connection connection = DataSourceFactory.getDataSource().getConnection()) {
