@@ -19,9 +19,7 @@ public class GenreDao {
 
 						listOfGenres.add(genre);
 					}
-					results.close();
-					statement.close();
-
+					
 				}
 			}
 		} catch (SQLException e) {
@@ -40,8 +38,7 @@ public class GenreDao {
 					if (results.next()) {
 						return new Genre(results.getInt("idgenre"),results.getString("name"));
 					}
-					results.close();
-					statement.close();
+
 				}
 
 			}
@@ -65,7 +62,6 @@ public class GenreDao {
 				if (ids.next()) {
 					new Genre(ids.getInt(1), name);
 				}
-				statement.close();
 				ids.close();
 			}
 		}catch (SQLException e) {

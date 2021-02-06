@@ -28,8 +28,7 @@ public class FilmDao {
 								results.getString("summary"));
 						listOfFilms.add(film);
 					}
-					results.close();
-					statement.close();
+
 				}
 			}
 		} catch (SQLException e) {
@@ -59,9 +58,8 @@ public class FilmDao {
 								results.getString("summary"));
 						listOfFilmsByGenre.add(film);
 					}
-					results.close();
-					statement.close();
 				}
+
 			}
 		} catch (SQLException e) {
 			// Manage Exception
@@ -86,7 +84,6 @@ public class FilmDao {
 				if (ids.next()) {
 					return new Film(ids.getInt(1), film.getTitle(), film.getReleaseDate(), film.getGenre(), film.getDuration(), film.getDirector(), film.getSummary());
 				}
-				statement.close();
 				ids.close();
 			}
 
