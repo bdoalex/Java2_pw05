@@ -19,7 +19,7 @@ public class GenreDao {
 
 						listOfGenres.add(genre);
 					}
-					
+
 				}
 			}
 		} catch (SQLException e) {
@@ -58,11 +58,6 @@ public class GenreDao {
 					sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
 				statement.setString(1, name);
 				statement.executeUpdate();
-				ResultSet ids = statement.getGeneratedKeys();
-				if (ids.next()) {
-					new Genre(ids.getInt(1), name);
-				}
-				ids.close();
 			}
 		}catch (SQLException e) {
 			// Manage Exception

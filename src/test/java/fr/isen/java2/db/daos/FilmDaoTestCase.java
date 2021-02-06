@@ -10,13 +10,13 @@ import fr.isen.java2.db.entities.Genre;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.tuple;
 
 public class FilmDaoTestCase {
 
-    private FilmDao filmDao = new FilmDao();
-    private GenreDao genreDao = new GenreDao();
+    private final FilmDao filmDao = new FilmDao();
 
     @Before
     public void initDb() throws Exception {
@@ -86,7 +86,8 @@ public class FilmDaoTestCase {
         Genre genre = new Genre(1,"Comedy");
         Film film = new Film(1,"Les ISEN au PDD", LocalDate.of(2015, 11, 26),genre,120,"Alexandre BARBOSA", "Les ISEN ont soif");
         //When
-        filmDao.addFilm(film);
+        Film filmAdded = filmDao.addFilm(film);
+        assertNotNull(filmAdded); // filmAdded ne doit pas retourner null
 
         Connection connection = DataSourceFactory.getDataSource().getConnection();
         Statement statement = connection.createStatement();
