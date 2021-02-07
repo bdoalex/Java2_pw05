@@ -9,6 +9,9 @@ import fr.isen.java2.db.entities.Genre;
 
 public class FilmDao {
 
+	/**
+	 * @return returns a list of all movies
+	 */
 	public List<Film> listFilms() {
 		List<Film> listOfFilms = new ArrayList<>();
 
@@ -38,7 +41,13 @@ public class FilmDao {
 		return listOfFilms;
 	}
 
+	/**
+	 * @param genreName name of the genre you want to list
+	 * @return returns a list containing the films sorted by genre
+	 */
 	public List<Film> listFilmsByGenre(String genreName) {
+
+
 		List<Film> listOfFilmsByGenre = new ArrayList<>();
 
 		try (Connection connection = DataSourceFactory.getDataSource().getConnection()) {
@@ -68,6 +77,10 @@ public class FilmDao {
 		return listOfFilmsByGenre;
 	}
 
+	/**
+	 * @param film
+	 * @return Returns a movie when the addition is done otherwise returns null
+	 */
 	public Film addFilm(Film film) {
 		try (Connection connection = DataSourceFactory.getDataSource().getConnection()) {
 			String sqlQuery = "INSERT INTO film(title,release_date,genre_id,duration,director,summary) VALUES(?,?,?,?,?,?)";
