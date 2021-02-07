@@ -6,6 +6,9 @@ import java.util.List;
 
 import fr.isen.java2.db.entities.Genre;
 
+/**
+ * @author Alexandre BARBOSA DE OLIVEIRA
+ */
 public class GenreDao {
 
 

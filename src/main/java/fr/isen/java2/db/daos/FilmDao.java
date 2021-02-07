@@ -7,9 +7,13 @@ import java.util.List;
 import fr.isen.java2.db.entities.Film;
 import fr.isen.java2.db.entities.Genre;
 
+/**
+ * @author Alexandre BARBOSA DE OLIVEIRA
+ */
 public class FilmDao {
 
 	/**
+	 *
 	 * @return returns a list of all movies
 	 */
 	public List<Film> listFilms() {
