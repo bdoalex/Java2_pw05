@@ -1,12 +1,11 @@
 package fr.isen.java2.db.daos;
 
-import javax.sql.DataSource;
-
-import org.sqlite.SQLiteDataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DataSourceFactory {
 
-	private static SQLiteDataSource dataSource;
 
 	private DataSourceFactory() {
 		// This is a static class that should not be instantiated.
@@ -19,11 +18,12 @@ public class DataSourceFactory {
 	 * @return a connection to the SQLite Database
 	 * 
 	 */
-	public static DataSource getDataSource() {
-		if (dataSource == null) {
-			dataSource = new SQLiteDataSource();
-			dataSource.setUrl("jdbc:sqlite:sqlite.db");
+	public static Connection getDataSource() {
+		try {
+			String urlDb = "jdbc:sqlite:sqlite.db";
+			return DriverManager.getConnection(urlDb);
+		} catch (SQLException e) {
+			return null;
 		}
-		return dataSource;
 	}
 }

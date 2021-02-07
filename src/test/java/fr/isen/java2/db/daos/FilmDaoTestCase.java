@@ -20,7 +20,7 @@ public class FilmDaoTestCase {
 
     @Before
     public void initDb() throws Exception {
-        Connection connection = DataSourceFactory.getDataSource().getConnection();
+        Connection connection = DataSourceFactory.getDataSource();
         Statement stmt = connection.createStatement();
         stmt.executeUpdate(
                 "CREATE TABLE IF NOT EXISTS genre (idgenre INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , name VARCHAR(50) NOT NULL);");
@@ -89,7 +89,7 @@ public class FilmDaoTestCase {
         Film filmAdded = filmDao.addFilm(film);
         assertNotNull(filmAdded); // filmAdded ne doit pas retourner null
 
-        Connection connection = DataSourceFactory.getDataSource().getConnection();
+        Connection connection = DataSourceFactory.getDataSource();
         Statement statement = connection.createStatement();
         ResultSet resultSetFilm = statement.executeQuery("SELECT * FROM film WHERE title='Les ISEN au PDD' ");
         assertThat(resultSetFilm.next()).isTrue();
